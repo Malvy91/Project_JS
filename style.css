@@ -204,6 +204,10 @@
 
 .my_car_picture {
     border-radius: 10px;
+    margin-left: 0;
+    margin-right: auto;
+    width: 50%;
+
 }
 
 .class_name, .class_address, .class_date {

@@ -711,8 +711,9 @@ function create_input_date(class_name) {
     let today = new Date();
     input_date.className = "class_" + class_name;
     input_date.type = "date";
-    let today_date = today.getFullYear() + "-" + (today.getMonth() + 1).toString().padStart(2, '0') + "-" + today.getDate();
+    let today_date = today.getFullYear() + "-" + (today.getMonth() + 1).toString().padStart(2, '0') + "-" + today.getDate().toString().padStart(2, '0');
     input_date.value = today_date;
+    localStorage.setItem("delivery_date", input_date.value);
     input_date.min = input_date.value;
     let max_date; 
     let twoWeeksLater = new Date(today.getTime() + (14 * 24 * 60 * 60 * 1000));
@@ -865,7 +866,9 @@ function submit_form(event) {
     alerts_list.className = "alerts_list";
     if (localStorage.getItem("alerts_list_created") === "true") {
         let select_alerts_list = document.querySelector(".alerts_list");
-        select_alerts_list.remove();
+        if (select_alerts_list !== null) {
+            select_alerts_list.remove();
+        }
     }
     if (name === null) {
         let alert_element = document.createElement("li");
