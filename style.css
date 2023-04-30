@@ -1,0 +1,72 @@
+/* styles for list and its elements */
+
+.my_cars_list {
+    padding: 0%;
+}
+
+.list_item {
+    list-style: none;
+    background-color: lightcyan;
+    border-style: solid;
+    padding: 20px;
+    margin: 10px;
+}
+
+.list_item:hover {
+    box-shadow: 3px 3px 10px gray,
+        black -3px 3px 10px,
+        3px -3px 10px;
+    box-lines: miltiple;
+}
+
+/* common styles */
+
+.car_badge {
+    border-style: dashed;
+    padding: inherit;
+    text-align: center;
+}
+
+.table{
+    width: 100%;
+}
+
+.table_cell1{
+    width: 35%;
+    border-style: dashed;
+}
+
+.table_cell2 {
+    background-color: blue;
+}
+
+.car_year, .car_mileage, .car_power {
+    border-style: dashed;
+    margin: 1px;
+    --width: ;
+    padding: calc(var(--width) / 3);
+}
+
+.table_cell3 {
+    width: 40%;
+    background-color: blueviolet;
+    text-align: center;
+}
+
+.car_image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    
+}
+
+/* styles for static page header */
+
+.page_header {
+    border-style: dashed;
+}
+
+.alerts {
+    background-color: red;
+}
