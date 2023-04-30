@@ -221,6 +221,11 @@ let price_box = create_box("prise_box");
 
 let box_price;
 
+/* deklaracja zmiennej, bez przypisywania wartości; zawierać będzie aktualną listę samochodów 
+*/
+
+let cars_ul;
+
 /* deklaracja pustej tablicy; zawierać będzie skróconą listę elementów listy, po wyszukiwaniu
 */
 
@@ -286,61 +291,70 @@ window.onload = function () {
         prepare_new_accessories_list(); // przygotowanie nowej listy akcesoriów, więcej na temat funcji przy jej deklaracji 
     }
     if (localStorage.getItem("current_screen") == "summary_page") { // wywołanie elementów strony, na trzecim etapie działania aplikacji,
-        let cars_ul = document.querySelector(".my_cars_list");      // gdy zakup zostaje zakończony i podsumowany 
+        cars_ul = document.querySelector(".my_cars_list");      // gdy zakup zostaje zakończony i podsumowany 
         if (cars_ul === null) {
             create_cars_list(cars);
         }
-        let cars_ul2 = document.querySelector(".my_cars_list");
-        cars_ul2.style.display = "none";
+        cars_ul = document.querySelector(".my_cars_list");
+        cars_ul.style.display = "none";
         summamry_page(); // wyświetlenie strony z podsumowaniem, więcej na temat funkcji przy jej deklaracji 
     }
 }
 
-/* 
+/* fukcja przyjmująca jako atryput tabelę elementór, które należy wyświtlić, 
+jej zadaniem jest utworzenie listy samochodów dostępnych w aplikacji 
 */
 
 function create_cars_list(table) {
 
-    /* document fragment that will be fill in during the list generation, later "only once" it will be push to html page, 
-    in that way we would avoid performance issues connected wiwt constant data appending */
+    /* document fragment jest to zmienna, która zawiera nowo utworzony element DocumentFragment,
+    służy on do przetrzymywania i ładowania elemenetów listy, która następnie zostanie wyświetlona na stronie; 
+    zabieg ten ma posłużyć ograniczeniu ingerencji w ciągłe ładowanie strony, co ma wpłynąć na poprawienie wydajności aplikacji
+    */
 
     var document_fragment = document.createDocumentFragment();
 
+    /* utworzenie zmiennej, do której przypisano nowo utworzony element DOM "ul" 
+    */
 
     var ul = document.createElement("ul");
-    ul.className = "my_cars_list";
+    ul.className = "my_cars_list"; // nadanie elementowi nazwy klasy w celu sprawniejszej jego identyfikacji 
 
-    table.forEach((item) => {
+    table.forEach((item) => { //przechodząc po każdym z elementów tablicy, wyświetlam je na stronie aplikacji 
 
-        let li = document.createElement("li"); // list's element is created 
-        li.className = "list_item";
-        li.id = item.id;
-        li.addEventListener("click", open_list_element);
+        let li = document.createElement("li"); // utworzenie elementu listy  
+        li.className = "list_item"; // nadanie nazwy klasy, w celu prostrzej identyfikacji elementu 
+        li.id = item.id; // nadanie id, jest to ten sam id, którym posługuje się obiekt tablicy (table)
+        li.addEventListener("click", open_list_element); // dodanie listenera, który będzie reagował na kliknięcie w element listy
+                                                        // po kliknięcie w element listy wywoła się funkcja open_list_element()
 
-        // badge header with brand name and model name 
-        let badge_header = document.createElement("h3"); // header h3 with the brand name and the model name 
-        badge_header.className = "car_badge";
-        badge_header.innerText = item.brand + " " + item.model;
+        let badge_header = document.createElement("h3"); // utworzenie elementu zawierającego się w elemencie listy 
+        badge_header.className = "car_badge"; 
+        badge_header.innerText = item.brand + " " + item.model; // dodanie tesktu do elementu badge_header
 
-        // car details 
-        let car_image = document.createElement("img"); // car image element
+        /* utworzenie elementów zawierających informacje nt. samochodu 
+        */
+
+        let car_image = document.createElement("img"); // deklaracja zmiennej oraz przypisanie nowoutworzonego elementu "obraz"
         car_image.className = "car_image";
-        car_image.src = item.pictureSrc;
-        car_image.alt = item.brand + " " + item.model;
-        let car_year = document.createElement("p"); // paragraf with the car's year 
+        car_image.src = item.pictureSrc; // przypisanie lokalizacji obrazu do atrybutu obrazu 
+        car_image.alt = item.brand + " " + item.model; // podanie tekstu alternatywnego, gdyby obraz nie był dostępny 
+        let car_year = document.createElement("p"); 
         car_year.className = "car_year";
         car_year.innerText = "Year: " + item.year;
-        let car_mileage = document.createElement("p"); //paragraf with the car's mileage 
+        let car_mileage = document.createElement("p"); 
         car_mileage.className = "car_mileage";
         car_mileage.innerText = "Mileage: " + item.mileage + " km";
-        let car_power = document.createElement("p"); // paragraf with the car's power in two units 
+        let car_power = document.createElement("p");
         car_power.className = "car_power";
         car_power.innerText = "Power: " + item.horse_power + " KM - " + item.engine_power + " kW";
-        let car_price = document.createElement("h4"); // header h4 with price 
+        let car_price = document.createElement("h4");
         car_price.className = "car_price";
         car_price.innerText = item.price + " zł";
 
-        // table 
+        /* utworzenie tabeli, placeeholder do stylizacji elementów listy 
+        */
+
         let table = document.createElement("table");
         table.className = "table";
         let table_row = document.createElement("tr");
@@ -359,60 +373,57 @@ function create_cars_list(table) {
 
         li.append(badge_header, table); 
 
-        // append list element to document fragment, that will be append to html 
-        document_fragment.append(li);
+        document_fragment.append(li); // dodanie elementu listy do fragmentu dokumentu, jeszcze nie jest to widoczne na stronie 
     }
     );
 
-    // append the list's element to the list
-    ul.append(document_fragment)
-    console.log(ul);
-    console.log("utworzono liste ul");
+    ul.append(document_fragment) // dodanie fragmentu dokumentu elementu ul, jeszcze nie jest to widoczne na stronie 
 
-    cars_list.append(ul);
-
+    cars_list.append(ul); // dodanie listy do strony
 }
 
-// open form with the car data, and the order data 
+/* funkcja przyjmująca jako argument even, który generuje się po kliknięciu w element listy samochodów
+*/
+
 function open_list_element(event) {
-    localStorage.setItem("car_id", event.currentTarget.id);
-    event.stopPropagation();
-    set_form_view();
+    localStorage.setItem("car_id", event.currentTarget.id); // dodanie nowej wartości do localStorage
+    event.stopPropagation(); // zatrzymanie propagacji eventu na inne elementy, które są dostępne po kliknięciu w element listy
+    set_form_view(); // utworzenie widoku formularza
 }
+
+/* funkcja ukrywająca listę samochodów i tworzącą formularz oraz listę zakupów 
+*/
 
 function set_form_view() {
-    console.log("a co tutaj");
-    console.log("boooooooo");
-    let cars_ul = document.querySelector(".my_cars_list");
-    if (cars_ul === null) {
+    cars_ul = document.querySelector(".my_cars_list");
+    if (cars_ul === null) { // funkcja wykorzystywana jest wielokronie, czasami element isty jest niedostępny, dlatego go tworzymy 
         create_cars_list(cars);
-        console.log("a tutaj co jest");
-        let cars_ul = document.querySelector(".my_cars_list");
+        cars_ul = document.querySelector(".my_cars_list");
         if (cars_ul.display !== "none") {
             cars_ul.style.display = "none";
         };
     } else {
-        console.log(cars_ul);
         cars_ul.style.display = "none";
     };
-    create_form();
-    display_selected_car(); 
+    create_form();  // funkcja, w które tworzę formularz
+    display_selected_car(); // funkcja, w której tworzę element wybranego samochodu, do wyświetlenia w liście zakupów
 }
 
-// create and show the form 
+/* funckja tworząca formularz 
+*/
+
 function create_form() {
-    
-    let form = document.createElement("form");
+    let form = document.createElement("form"); // utworzenie elementu formulrz
     form.className = "my_form";
-    localStorage.setItem("current_screen", "form");
-    console.log(localStorage.getItem("current_screen"));
-    //user data boxs' element
+    localStorage.setItem("current_screen", "form"); // zapisanie aktualnie widocznego elementu aplikacji do localStorage
+
+    // user data element
     let user_data_box = create_box("surname");
     user_data.forEach((item) => {
         let label = create_label("\n\n" + item.user_data + " \n", item.user_data_class);
         let element = create_input_text(item.user_data, "class_" + item.user_data_class);
         if (item.user_data_class == "name") {
-            element.addEventListener("input", update_user_name);
+            element.addEventListener("input", update_user_name); // złapanie i interpretacja eventu wpisywania danych do pola "input"
         }
         if (item.user_data_class == "address") {
             element.addEventListener("input", update_user_address);
@@ -437,7 +448,7 @@ function create_form() {
         let label_payment = create_label("\n", item.class);
         label_payment.append(element_payment);
         label_payment.append(item.name);
-        element_payment.addEventListener("click", update_payment_method);
+        element_payment.addEventListener("click", update_payment_method); // złapanie i interpretacja eventu, kliknięcie w radio button 
         payment_box.append(label_payment);
     }
     );
@@ -451,50 +462,74 @@ function create_form() {
         let label_accessories = create_label("\n", item.class);
         label_accessories.append(element_accessories);
         label_accessories.append(item.name + " " + item.price + " zł");
-        element_accessories.addEventListener("click", update_accessories_list);
+        element_accessories.addEventListener("click", update_accessories_list); // złapanie i interpretacja eventu, kliknięcie w checkbox 
         accessories_box.append(label_accessories);
     }
     );
 
+    /* dodanie przycisków powrót i wyślij do formularza 
+    */
+
     var back_button_box = create_box("back_button");
     var my_button = create_button("button", "Powrót");
-    my_button.addEventListener("click", hide_form);
+    my_button.addEventListener("click", hide_form); // złapanie i interpretacja eventu, kliknięcie w button Powrót
     back_button_box.append(my_button);
 
     var submit_button_box = create_box("submit_button");
     var my_button = create_button("submit", "Wyślij");
-    my_button.addEventListener("click", submit_form);
+    my_button.addEventListener("click", submit_form); // złapanie i interpretacja eventu, kliknięcie w button Wyślij
     submit_button_box.append(my_button);
 
-    form.append(user_data_box, date_box, payment_box, accessories_box, back_button_box, submit_button_box);
-    cars_list.append(form);
+    form.append(user_data_box, date_box, payment_box, accessories_box, back_button_box, submit_button_box); // dodanie elementów do formularza
+    cars_list.append(form); // dodanie formularza do strony, formularz zostanie wyświetlone
 };
+
+/* zapisanie nazwy użytkownika do localStorage
+*/
 
 function update_user_name(event) {
     localStorage.setItem("name", event.currentTarget.value);
 };
 
+/* zapisanie adresu użytkownika do localStorage
+*/
+
 function update_user_address(event) {
     localStorage.setItem("address", event.currentTarget.value);
 };
+
+/* zapisanie daty dostarczenia do localStorage
+*/
    
 function update_date_value(event) {
     localStorage.setItem("delivery_date", event.currentTarget.value);
 };
 
+/* zapisanie metody płatności do localStorage
+*/
+
 function update_payment_method(event) {
     localStorage.setItem("payment_method", event.currentTarget.value);
 };
+
+/* obsłużenie eventu po dodaniu, usunięciu akcesoriów  
+*/
     
 function update_accessories_list(event) {
 
     event.stopPropagation();
-    prepare_new_accessories_list();
+    prepare_new_accessories_list(); // tworzenie aktualnie listy wybranych akcesoriów
 }
+
+/* zapisanie finalnej ceny do localStorage
+*/
 
 function update_final_price(price) {
     localStorage.setItem("total_price", price);
 }
+
+/* tworzenie aktualnie listy wybranych akcesoriów, odczytywanie stanu checkboxów, zapisanie ich do localStorage oraz update ceny 
+*/
 
 function prepare_new_accessories_list(){
     accessories_list.forEach((item) => {
@@ -614,11 +649,17 @@ function prepare_new_accessories_list(){
     shopping_list_box.append(element_ul, price_box);
 };
 
+/* utworzenie elementu "p", w którym dodane zostaną pozostałe skojarzone elementy
+*/
+
 function create_box(class_name) {
     let paragraf_box = document.createElement("p");
     paragraf_box.className = class_name;
     return paragraf_box;
 };
+
+/* utworzenie elementu "label", w którym zostanie zawarta nazwa, np. elementu wyświetlanego na stronie 
+*/
 
 function create_label(name, class_name) {
     let label = document.createElement("label")
@@ -627,6 +668,9 @@ function create_label(name, class_name) {
     return label
 };
 
+/* utworzenie elementu "input", typu "text"
+*/
+
 function create_input_text(label_name, class_name) {
     let input_name = document.createElement("input");
     input_name.className = class_name;
@@ -634,6 +678,9 @@ function create_input_text(label_name, class_name) {
     input_name.labels = label_name;
     return input_name;
 }
+
+/* utworzenie elementu "input", typu "date"
+*/
 
 function create_input_date(class_name) {
     let input_date = document.createElement("input");
@@ -660,6 +707,9 @@ function create_input_date(class_name) {
     return input_date;
 };
 
+/* utworzenie elementu "input", typu "checkbox" lub "radio" w zależności od przyjmowanych argumentów 
+*/
+
 function create_input_selection(element_type, element_value, element_class) {
     let input_element = document.createElement("input");
     input_element.setAttribute("type", element_type);
@@ -668,6 +718,9 @@ function create_input_selection(element_type, element_value, element_class) {
     input_element.setAttribute("name", element_type);
     return input_element;
 };
+
+/* zniszczenie formularza i usunięcie localStorage
+*/
 
 function hide_form() {
     let my_form = document.querySelector(".my_form");
@@ -684,12 +737,14 @@ function hide_form() {
     if (alerts_baner !== null) {
         alerts_baner.remove();
     };
-    let cars_ul = document.querySelector(".my_cars_list");
+    cars_ul = document.querySelector(".my_cars_list");
     cars_ul.style.display = "block";
-    console.log("dlaczego");
     localStorage.clear();
     localStorage.setItem("current_screen", "cars_list");
 }; 
+
+/* wyświetlenie elementów wybranego samochodu 
+*/
 
 function display_selected_car() {
     var shopping_list_title = create_label("Lista zakupów \n", "shopping_list_class");
@@ -726,12 +781,18 @@ function display_selected_car() {
     cars_list.append(shopping_list_box);
 };
 
+/* funckja tworząca przycisk
+*/
+
 function create_button(type, text) {
     var button = document.createElement("button");
     button.type = type
     button.innerText = text
     return button;
 };
+
+/* submit formularza z walidacją elementów, zatwierdzenie go 
+*/
 
 function submit_form(event) {
     event.preventDefault()
@@ -798,6 +859,9 @@ function submit_form(event) {
 
 };
 
+/* analiza tekstu pobranego z pola input 
+*/
+
 function analyze_text(text_element) {
     let text_element_length = text_element.length;
     if (text_element_length === 4) {
@@ -834,6 +898,9 @@ function analyze_text(text_element) {
     };
 };
 
+/* pokaż podsumowanie strony 
+*/
+
 function show_summary_page() {
     localStorage.setItem("current_screen", "summary_page");
     let my_form = document.querySelector(".my_form");
@@ -849,6 +916,9 @@ function show_summary_page() {
     
     summamry_page();
 };
+
+/* stwórz podsumowanie zakupu 
+*/
 
 function summamry_page() {
     let summary_element = document.createElement("p");
@@ -866,7 +936,6 @@ function summamry_page() {
     const final_paymeny_method = localStorage.getItem("payment_method");
     cars.forEach((item) => { 
         if (item.id === Number(bought_car_id)) {
-            console.log(item);
             thanks_for.innerText = "Dziękujemy za dokonanie zakupu samochodu " + item.brand + " " + item.model + " !";
             
             my_car_picture.src = item.pictureSrc;
@@ -889,8 +958,11 @@ function summamry_page() {
     cars_list.append(summary_element, finish_button_box);
 }
 
+/* funkcja wywoływana dla akcji kliku w przycisk "Powrót"
+*/
+
 function back_to_cars_list() {
-    let cars_ul = document.querySelector(".my_cars_list");
+    cars_ul = document.querySelector(".my_cars_list");
     cars_ul.style.display = "block";
     let hide_finish_button_box = document.querySelector(".finish_button_box");
     hide_finish_button_box.remove();
@@ -900,6 +972,9 @@ function back_to_cars_list() {
     localStorage.clear();
     localStorage.setItem("current_screen", "cars_list");
 }
+
+/* utworzenie kontrolki wyszukiwania
+*/
 
 function create_search_control() {
     let search_control_box = create_box("search_control_box");
@@ -911,6 +986,9 @@ function create_search_control() {
     console.log("tutaj");
     search_entry_on_page.append(search_control_box);
 }
+
+/* aktualizacja widoku listy samochodów po wpisaniu frazy w wyszukiwarkę
+*/
 
 function update_search_event(event) {
     event.stopPropagation();
