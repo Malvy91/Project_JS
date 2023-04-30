@@ -231,6 +231,13 @@ let cars_ul;
 
 let shorten_cars_list = [];
 
+/* deklaracja zmiennej, dającej dostęp do kontrolki search
+*/
+
+let my_search_entry_control = document.querySelector(".my_search_entry");
+
+/* utworzenie kontrolki wyszukiwarki 
+*/
 
 create_search_control();
 
@@ -247,10 +254,12 @@ window.onload = function () {
     if (localStorage.getItem("current_screen") == "cars_list") { // wywołanie elementów dostępnych na pierwszej stronie aplikacji 
         create_cars_list(cars);
         shorten_cars_list = [];
+        my_search_entry_control.style.display = "block";
     }
     if (localStorage.getItem("current_screen") == null) {   // wywołanie elementów na pierwszej stronie aplikacji, w przypadku gdy strona
         create_cars_list(cars);                             // uruchomiona jest pierwszy raz
         shorten_cars_list = [];
+        my_search_entry_control.style.display = "block";
     }
     if (localStorage.getItem("current_screen") == "form") { // wywołanie elementów strony, na drugim etapie działania aplikacji,
         set_form_view();                                    // kiedy to user wybrał samochód i przeszedł do konfiguracji zamówienia
@@ -289,7 +298,7 @@ window.onload = function () {
         if (is_selected_upholstery === "true") {
             upholstery_checkbox_value.checked = true;
         }
-
+        my_search_entry_control.style.display = "none";
         prepare_new_accessories_list(); // przygotowanie nowej listy akcesoriów, więcej na temat funcji przy jej deklaracji 
     }
     if (localStorage.getItem("current_screen") == "summary_page") { // wywołanie elementów strony, na trzecim etapie działania aplikacji,
@@ -299,6 +308,7 @@ window.onload = function () {
         }
         cars_ul = document.querySelector(".my_cars_list");
         cars_ul.style.display = "none";
+        my_search_entry_control.style.display = "none";
         summamry_page(); // wyświetlenie strony z podsumowaniem, więcej na temat funkcji przy jej deklaracji 
     }
 }
@@ -423,6 +433,7 @@ function set_form_view() {
 */
 
 function create_form() {
+    my_search_entry_control.style.display = "none";
     let form = document.createElement("form"); // utworzenie elementu formulrz
     form.className = "my_form";
     localStorage.setItem("current_screen", "form"); // zapisanie aktualnie widocznego elementu aplikacji do localStorage
@@ -736,6 +747,7 @@ function create_input_selection(element_type, element_value, element_class) {
 */
 
 function hide_form_when_back() {
+    my_search_entry_control.style.display = "block"
     let my_form = document.querySelector(".my_form");
     my_form.remove();
     let updated_accessories_remove_list = document.querySelector(".updated_accessories_list");
@@ -1011,6 +1023,7 @@ function summamry_page() {
 function back_to_cars_list() {
     cars_ul = document.querySelector(".my_cars_list");
     cars_ul.style.display = "block";
+    my_search_entry_control.style.display = "block"
     let hide_finish_button_box = document.querySelector(".finish_button_box");
     hide_finish_button_box.remove();
     let hide_total_summary = document.querySelector(".summary_element");
@@ -1030,7 +1043,6 @@ function create_search_control() {
     search_input.addEventListener("input", update_search_event);
     search_control_box.append(serch_label, search_input);
     let search_entry_on_page = document.querySelector(".my_search_entry");
-    console.log("tutaj");
     search_entry_on_page.append(search_control_box);
 }
 
@@ -1049,13 +1061,11 @@ function update_search_event(event) {
         cars.forEach((item) => { 
             analyze_text = item.brand;
             let lower_case_text = analyze_text.toLowerCase();
-            console.log(lower_case_search_phrase);
             if (lower_case_text.includes(lower_case_search_phrase)) {
                 shorten_cars_list.push(item);
             }
         }
         );  
-        console.log(shorten_cars_list)
         create_cars_list(shorten_cars_list);
     }
 };
