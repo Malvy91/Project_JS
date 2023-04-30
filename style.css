@@ -6,10 +6,33 @@
 
 .list_item {
     list-style: none;
-    background-color: lightcyan;
-    border-style: solid;
     padding: 20px;
     margin: 10px;
+    width: 50%;
+}
+
+@media only screen and (max-width: 980px) {
+    .list_item {
+        width: 50%;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .list_item {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 540px) {
+    .list_item {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    .list_item {
+        width: 100%;
+    }
 }
 
 .list_item:hover {
@@ -19,12 +42,17 @@
     box-lines: miltiple;
 }
 
+.car_price{
+    font-weight: bolder;
+    font-size: x-large;
+}
+
 /* common styles */
 
 .car_badge {
-    border-style: dashed;
-    padding: inherit;
-    text-align: center;
+    text-align: left;
+    font-weight: bolder;
+    font-size: x-large;
 }
 
 .table{
@@ -33,24 +61,23 @@
 
 .table_cell1{
     width: 35%;
-    border-style: dashed;
 }
 
 .table_cell2 {
-    background-color: blue;
+    border-style: groove;
+    width: 35%;
+    border-radius: 10px;
 }
 
 .car_year, .car_mileage, .car_power {
-    border-style: dashed;
-    margin: 1px;
-    --width: ;
-    padding: calc(var(--width) / 3);
+    margin: 2px;
+    padding: 5px;
 }
 
 .table_cell3 {
-    width: 40%;
-    background-color: blueviolet;
     text-align: center;
+    border-style: groove;
+    border-radius: 10px;
 }
 
 .car_image {
@@ -58,7 +85,7 @@
     margin-left: auto;
     margin-right: auto;
     width: 100%;
-    
+    border-radius: 10px;
 }
 
 /* style formularza
@@ -122,6 +149,7 @@
 
 .car_picture {
     display: block;
+    border-radius: 10px;
     margin-left: 0;
     margin-right: auto;
     width: 50%;
@@ -164,4 +192,17 @@
     display: right;
     font-size: 16px;
     position: absolute;
+}
+
+.finish_button_box {
+    text-align: right;
+}
+
+.summary_element {
+    margin-left: 30px; 
+    margin-right: auto;
+}
+
+.my_car_picture {
+    border-radius: 10px;
 }

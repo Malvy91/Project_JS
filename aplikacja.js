@@ -341,13 +341,13 @@ function create_cars_list(table) {
         car_image.alt = item.brand + " " + item.model; // podanie tekstu alternatywnego, gdyby obraz nie był dostępny 
         let car_year = document.createElement("p"); 
         car_year.className = "car_year";
-        car_year.innerText = "Year: " + item.year;
+        car_year.innerText = "Rocznik:\n" + item.year;
         let car_mileage = document.createElement("p"); 
         car_mileage.className = "car_mileage";
-        car_mileage.innerText = "Mileage: " + item.mileage + " km";
+        car_mileage.innerText = "Przebieg:\n" + item.mileage + " km";
         let car_power = document.createElement("p");
         car_power.className = "car_power";
-        car_power.innerText = "Power: " + item.horse_power + " KM - " + item.engine_power + " kW";
+        car_power.innerText = "Moc silnika:\n" + item.horse_power + " KM - " + item.engine_power + " kW";
         let car_price = document.createElement("h4");
         car_price.className = "car_price";
         car_price.innerText = item.price + " zł";
@@ -406,7 +406,6 @@ function set_form_view() {
         cars_ul.style.display = "none";
     };
     let updated_accessories_remove_this_list = document.querySelector(".updated_accessories_list");
-    console.log(updated_accessories_remove_this_list);
     if (updated_accessories_remove_this_list !== null) {
         updated_accessories_remove_this_list.remove();
     }
@@ -806,9 +805,9 @@ function display_selected_car() {
             
             let car_info = document.createElement("p");
             car_info.className = "car_info";
-            car_info.innerText = "\nYear: " + item.year +
-                " | Mileage: " + item.mileage + " km" +
-                " | Power: " + item.horse_power + " KM - " + item.engine_power + " kW";
+            car_info.innerText = "\nRocznik:" + item.year +
+                " | Przebieg:" + item.mileage + " km" +
+                " | Moc silnika:" + item.horse_power + " KM - " + item.engine_power + " kW";
 
             price_box.append(label_price);
             car_box.append(car_name, car_picture, car_info);
