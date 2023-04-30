@@ -232,7 +232,7 @@ let cars_ul;
 let shorten_cars_list = [];
 
 
-// create_search_control(); ?????????????????????????????????????????????????????????????????????????????????
+create_search_control();
 
 /* deklaracja zmiennej, do której przypisano element DOM odnaleziony po nazwie klasy
 */
@@ -246,9 +246,11 @@ której triggerem jest odświeżenie strony
 window.onload = function () {
     if (localStorage.getItem("current_screen") == "cars_list") { // wywołanie elementów dostępnych na pierwszej stronie aplikacji 
         create_cars_list(cars);
+        shorten_cars_list = [];
     }
     if (localStorage.getItem("current_screen") == null) {   // wywołanie elementów na pierwszej stronie aplikacji, w przypadku gdy strona
         create_cars_list(cars);                             // uruchomiona jest pierwszy raz
+        shorten_cars_list = [];
     }
     if (localStorage.getItem("current_screen") == "form") { // wywołanie elementów strony, na drugim etapie działania aplikacji,
         set_form_view();                                    // kiedy to user wybrał samochód i przeszedł do konfiguracji zamówienia
@@ -306,6 +308,10 @@ jej zadaniem jest utworzenie listy samochodów dostępnych w aplikacji
 */
 
 function create_cars_list(table) {
+    let available_us = document.querySelector(".my_cars_list");
+    if (available_us !== null) {
+        available_us.remove();
+    }
 
     /* document fragment jest to zmienna, która zawiera nowo utworzony element DocumentFragment,
     służy on do przetrzymywania i ładowania elemenetów listy, która następnie zostanie wyświetlona na stronie; 
@@ -1033,20 +1039,23 @@ function create_search_control() {
 
 function update_search_event(event) {
     event.stopPropagation();
+    shorten_cars_list = [];
     localStorage.setItem("search_phrase", event.currentTarget.value);
     const search_phrase = localStorage.getItem("search_phrase");
     let lower_case_search_phrase = search_phrase.toLowerCase();
-    console.log(lower_case_search_phrase);
     if (search_phrase.length = 0) {
         create_cars_list(cars); 
     } else {
         cars.forEach((item) => { 
-        let lower_case_brand = item.brand.toLowerCase();
-        if (lower_case_brand.includes(lower_case_search_phrase)) {
-            shorten_cars_list.push(item);
-            create_cars_list(shorten_cars_list);
+            analyze_text = item.brand;
+            let lower_case_text = analyze_text.toLowerCase();
+            console.log(lower_case_search_phrase);
+            if (lower_case_text.includes(lower_case_search_phrase)) {
+                shorten_cars_list.push(item);
+            }
         }
+        );  
+        console.log(shorten_cars_list)
+        create_cars_list(shorten_cars_list);
     }
-    );
-    } 
 };
