@@ -824,9 +824,9 @@ function display_selected_car() {
             
             let car_info = document.createElement("p");
             car_info.className = "car_info";
-            car_info.innerText = "\nRocznik:" + item.year +
-                " | Przebieg:" + item.mileage + " km" +
-                " | Moc silnika:" + item.horse_power + " KM - " + item.engine_power + " kW";
+            car_info.innerText = "\nRocznik: " + item.year +
+                " | Przebieg: " + item.mileage + " km" +
+                " | Moc silnika: " + item.horse_power + " KM - " + item.engine_power + " kW";
 
             price_box.append(label_price);
             car_box.append(car_name, car_picture, car_info);
@@ -877,7 +877,7 @@ function submit_form(event) {
         alerts_list.append(alert_element);
         
     } else {
-        if (analyze_text(name) === true) {
+        if (analyze_text_function(name) === true) {
             let alert_element = document.createElement("li");
             alert_element.className = "incorrect_name_format"
             alert_element.innerText = "Podaj imię i nazwisko, oddzielając je spacją.\n";
@@ -936,7 +936,7 @@ function submit_form(event) {
 /* analiza tekstu pobranego z pola input 
 */
 
-function analyze_text(text_element) {
+function analyze_text_function(text_element) {
     let text_element_length = text_element.length;
     if (text_element_length === 4) {
         return true
