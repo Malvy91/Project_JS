@@ -1,52 +1,4 @@
-window.onload = function() {
-    if (localStorage.getItem("current_screen") == "cars_list") {
-        ul.style.display = "block";
-    }
-    if (localStorage.getItem("current_screen") == null) {
-        ul.style.display = "block";
-    }
-    if (localStorage.getItem("current_screen") == "form") {
-        set_form_view();
-        localStorage.setItem("alerts_list_created", "false");
-        var name_label = document.querySelector(".class_name");
-        name_label.value = localStorage.getItem("name");
-        var address_label = document.querySelector(".class_address");
-        address_label.value = localStorage.getItem("address");
-        var date_label = document.querySelector(".class_date");
-        date_label.value = localStorage.getItem("delivery_date");
-
-        var leasing_radio = document.querySelector(".radioleasing");
-        var gotowka_radio = document.querySelector(".radiogotówka");
-        if (localStorage.getItem("payment_method") === "leasing") {
-            leasing_radio.checked = true;
-        }
-        if (localStorage.getItem("payment_method") === "gotówka") {
-            gotowka_radio.checked = true;
-        }
-
-        var ABS_checkbox_value = document.querySelector(".checkboxABS");
-        const is_selected_ABS = localStorage.getItem("ABS_state");
-        if (is_selected_ABS === "true") {
-            ABS_checkbox_value.checked = true;
-        }
-        var rims_checkbox_value = document.querySelector(".checkboxrims");
-        const is_selected_rims = localStorage.getItem("rims_state");
-        if (is_selected_rims === "true") {
-            rims_checkbox_value.checked = true;
-        }
-        var upholstery_checkbox_value = document.querySelector(".checkboxupholstery");
-        const is_selected_upholstery = localStorage.getItem("upholstery_state");
-        if (is_selected_upholstery === "true") {
-            upholstery_checkbox_value.checked = true;
-        }
-        prepare_new_accessories_list();
-    }
-    if (localStorage.getItem("current_screen") == "summary_page") {
-        ul.style.display = "none";
-        summamry_page();
-    }
-}
-
+// localStorage.clear();
 var cars = [
     {
         "id": 1,
@@ -213,23 +165,84 @@ element_ul.className = "updated_accessories_list";
 
 let price_box = create_box("prise_box");
 let box_price;
+let shorten_cars_list = [];
+// create_search_control();
 
 // list selection, in that way we tell where list's elements shall be generated 
-var cars_list = document.querySelector(".my_page_content");
+let cars_list = document.querySelector(".my_page_content");
 
-/* document fragment that will be fill in during the list generation, later "only once" it will be push to html page, 
-in that way we would avoid performance issues connected wiwt constant data appending */
 
-var document_fragment = document.createDocumentFragment();
+// localStorage.clear();
+window.onload = function () {
+    console.log(localStorage.getItem("current_screen"));
+    console.log("tutaj");
+    if (localStorage.getItem("current_screen") == "cars_list") {
+        create_cars_list(cars);
+    }
+    if (localStorage.getItem("current_screen") == null) {
+        create_cars_list(cars);
+    }
+    if (localStorage.getItem("current_screen") == "form") {
+        set_form_view();
+        console.log("co tutaj");
+        localStorage.setItem("alerts_list_created", "false");
+        var name_label = document.querySelector(".class_name");
+        name_label.value = localStorage.getItem("name");
+        var address_label = document.querySelector(".class_address");
+        address_label.value = localStorage.getItem("address");
+        var date_label = document.querySelector(".class_date");
+        date_label.value = localStorage.getItem("delivery_date");
 
-let shorten_cars_list = [];
+        var leasing_radio = document.querySelector(".radioleasing");
+        var gotowka_radio = document.querySelector(".radiogotówka");
+        if (localStorage.getItem("payment_method") === "leasing") {
+            leasing_radio.checked = true;
+        }
+        if (localStorage.getItem("payment_method") === "gotówka") {
+            gotowka_radio.checked = true;
+        }
 
-var ul = document.createElement("ul");
-ul.className = "my_cars_list";
-create_search_control();
-create_cars_list(cars); 
+        var ABS_checkbox_value = document.querySelector(".checkboxABS");
+        const is_selected_ABS = localStorage.getItem("ABS_state");
+        if (is_selected_ABS === "true") {
+            ABS_checkbox_value.checked = true;
+        }
+        var rims_checkbox_value = document.querySelector(".checkboxrims");
+        const is_selected_rims = localStorage.getItem("rims_state");
+        if (is_selected_rims === "true") {
+            rims_checkbox_value.checked = true;
+        }
+        var upholstery_checkbox_value = document.querySelector(".checkboxupholstery");
+        const is_selected_upholstery = localStorage.getItem("upholstery_state");
+        if (is_selected_upholstery === "true") {
+            upholstery_checkbox_value.checked = true;
+        }
+        prepare_new_accessories_list();
+    }
+    if (localStorage.getItem("current_screen") == "summary_page") {
+        let cars_ul = document.querySelector(".my_cars_list");
+        if (cars_ul === null) {
+            create_cars_list(cars);
+        }
+        let cars_ul2 = document.querySelector(".my_cars_list");
+        cars_ul2.style.display = "none";
+        summamry_page();
+    }
+}
+
+//create_cars_list(cars); 
 
 function create_cars_list(table) {
+
+    /* document fragment that will be fill in during the list generation, later "only once" it will be push to html page, 
+    in that way we would avoid performance issues connected wiwt constant data appending */
+
+    var document_fragment = document.createDocumentFragment();
+
+
+    var ul = document.createElement("ul");
+    ul.className = "my_cars_list";
+
     table.forEach((item) => {
 
         let li = document.createElement("li"); // list's element is created 
@@ -286,69 +299,12 @@ function create_cars_list(table) {
 
     // append the list's element to the list
     ul.append(document_fragment)
+    console.log(ul);
+    console.log("utworzono liste ul");
+
     cars_list.append(ul);
 
 }
-
-// cars.forEach((item) => {
-
-//     let li = document.createElement("li"); // list's element is created 
-//     li.className = "list_item";
-//     li.id = item.id;
-//     li.addEventListener("click", open_list_element);
-
-//     // badge header with brand name and model name 
-//     let badge_header = document.createElement("h3"); // header h3 with the brand name and the model name 
-//     badge_header.className = "car_badge";
-//     badge_header.innerText = item.brand + " " + item.model;
-
-//     // car details 
-//     let car_image = document.createElement("img"); // car image element
-//     car_image.className = "car_image";
-//     car_image.src = item.pictureSrc;
-//     car_image.alt = item.brand + " " + item.model;
-//     let car_year = document.createElement("p"); // paragraf with the car's year 
-//     car_year.className = "car_year";
-//     car_year.innerText = "Year: " + item.year;
-//     let car_mileage = document.createElement("p"); //paragraf with the car's mileage 
-//     car_mileage.className = "car_mileage";
-//     car_mileage.innerText = "Mileage: " + item.mileage + " km";
-//     let car_power = document.createElement("p"); // paragraf with the car's power in two units 
-//     car_power.className = "car_power";
-//     car_power.innerText = "Power: " + item.horse_power + " KM - " + item.engine_power + " kW";
-//     let car_price = document.createElement("h4"); // header h4 with price 
-//     car_price.className = "car_price";
-//     car_price.innerText = item.price + " zł";
-
-//     // table 
-//     let table = document.createElement("table");
-//     table.className = "table";
-//     let table_row = document.createElement("tr");
-//     table_row.className = "table_row";
-//     let table_cell1 = document.createElement("td");
-//     table_cell1.className = "table_cell1";
-//     table_cell1.append(car_image);
-//     let table_cell2 = document.createElement("td");
-//     table_cell2.className = "table_cell2";
-//     table_cell2.append(car_year, car_mileage, car_power)
-//     let table_cell3 = document.createElement("td");
-//     table_cell3.className = "table_cell3";
-//     table_cell3.append(car_price)
-//     table_row.append(table_cell1, table_cell2, table_cell3);
-//     table.append(table_row);
-
-//     li.append(badge_header, table); 
-
-//     // append list element to document fragment, that will be append to html 
-//     document_fragment.append(li);
-// }
-// );
-
-// // append the list's element to the list
-// ul.append(document_fragment)
-// cars_list.append(ul);
-
-
 
 // open form with the car data, and the order data 
 function open_list_element(event) {
@@ -358,17 +314,31 @@ function open_list_element(event) {
 }
 
 function set_form_view() {
-    ul.style.display = "none";
+    console.log("a co tutaj");
+    console.log("boooooooo");
+    let cars_ul = document.querySelector(".my_cars_list");
+    if (cars_ul === null) {
+        create_cars_list(cars);
+        console.log("a tutaj co jest");
+        let cars_ul = document.querySelector(".my_cars_list");
+        if (cars_ul.display !== "none") {
+            cars_ul.style.display = "none";
+        };
+    } else {
+        console.log(cars_ul);
+        cars_ul.style.display = "none";
+    };
     create_form();
     display_selected_car(); 
 }
 
 // create and show the form 
 function create_form() {
-
+    
     let form = document.createElement("form");
     form.className = "my_form";
     localStorage.setItem("current_screen", "form");
+    console.log(localStorage.getItem("current_screen"));
     //user data boxs' element
     let user_data_box = create_box("surname");
     user_data.forEach((item) => {
@@ -644,8 +614,12 @@ function hide_form() {
     let shopping_list = document.querySelector(".shopping_list");
     shopping_list.remove();
     let alerts_baner = document.querySelector(".alerts_list");
-    alerts_baner.remove();
-    ul.style.display = "block";
+    if (alerts_baner !== null) {
+        alerts_baner.remove();
+    };
+    let cars_ul = document.querySelector(".my_cars_list");
+    cars_ul.style.display = "block";
+    console.log("dlaczego");
     localStorage.clear();
     localStorage.setItem("current_screen", "cars_list");
 }; 
@@ -849,7 +823,8 @@ function summamry_page() {
 }
 
 function back_to_cars_list() {
-    ul.style.display = "block";
+    let cars_ul = document.querySelector(".my_cars_list");
+    cars_ul.style.display = "block";
     let hide_finish_button_box = document.querySelector(".finish_button_box");
     hide_finish_button_box.remove();
     let hide_total_summary = document.querySelector(".summary_element");
@@ -873,24 +848,21 @@ function create_search_control() {
 function update_search_event(event) {
     event.stopPropagation();
     localStorage.setItem("search_phrase", event.currentTarget.value);
-    console.log(event.currentTarget.value);
     const search_phrase = localStorage.getItem("search_phrase");
-    console.log(search_phrase);
     let lower_case_search_phrase = search_phrase.toLowerCase();
     console.log(lower_case_search_phrase);
-
-    cars.forEach((item) => { 
+    if (search_phrase.length = 0) {
+        create_cars_list(cars); 
+    } else {
+        cars.forEach((item) => { 
         let lower_case_brand = item.brand.toLowerCase();
         if (lower_case_brand.includes(lower_case_search_phrase)) {
             shorten_cars_list.push(item);
-            console.log(shorten_cars_list);
+            create_cars_list(shorten_cars_list);
         }
     }
     );
-    if (search_phrase.length > 0) {
-        create_cars_list(shorten_cars_list); 
-    } else {
-        create_cars_list(cars); 
     }
+    
     
 };
