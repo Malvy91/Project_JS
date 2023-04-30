@@ -1,4 +1,22 @@
-// localStorage.clear();
+/* Niniejsza aplikacja została stworzona przez Malwinę Wajdzik. 
+Skupiono się w niej na maksymalne wykorzystanie możliwości czystego java scriptu.
+Starano się utworzyć metody uniwersalne, które można reużyć w wielu miejscach aplikacji, aby zminimalizować ilość powtarzającego się
+kodu. W trakcie tworzenia aplikacji postawiono również na rozwiązanie na bieżąo problemów z performancem.
+*/
+
+
+/* deklaracja tablicy obiektów, zawierających informacje o samochodach dostępnych w ofercie 
+        "id": number // numer id samochodu, pozwoli na szybkie odnalenienie go w tablicy, wartość jest zapisywana w localStorage
+        "brand": string // nazwa marki samochodu
+	    "model": string // nazwa modelu samochodu
+        "year": number // rocznik samochodu
+        "mileage": number // przebieg samochodu 
+	    "engine_power": number // moc silnika wyrażona w kW
+	    "horse_power": number // moc silnika wyrażona w koniach mechanicznych
+	    "price": number // cena samochodu nie uwzględniająca akcesoria
+        "pictureSrc": string // lokalizacja obrazka 
+*/
+
 var cars = [
     {
         "id": 1,
@@ -111,6 +129,12 @@ var cars = [
         "pictureSrc": "./pictures/renault_laguna.jpg",
     },
 ]
+
+/* deklaracja tablicy obiektów, które reprezentują placeholdery danych użytkownika
+        "user_data": string // nazwa placeholdera, zostanie wyświetlona na stronie jako nazwa pola typu input
+        "user_data_class": string // ustalona nazwa klasy dla elementu powstałego w trakcie życia aplikacji 
+*/
+
 var user_data = [
     {
         "user_data": "Imię & Nazwisko",
@@ -122,6 +146,11 @@ var user_data = [
     },
 ];
 
+/* deklaracja tablicy obiektów, które zawierają informacje o dostępnych metodach płatności. 
+        "name": string // nazwa metody płatności 
+        "class": string // ustalona nazwa klasy dla elementu powstałego w trakcie życia aplikacji
+*/
+
 var payments = [
     {
         "name": "leasing",
@@ -132,6 +161,13 @@ var payments = [
         "class": "payment",
     },
 ];
+
+/* 
+deklaracja tablicy obiektów, reprezentujących akcesoria dostępne w aplikacji 
+        "id": number // id obiektu, wykorzystawane w kolejnych liniach kodu aplikacji do identyfikacji obiektu
+        "name": string // nazwa akcesorium, wyświetlana w aplikacji i widoczna dla użytkowanika
+        "class": string // nazwa klasy obiektu, wykorzystywana do identyfikacji i pobrania obiektu w trakcie życia aplikacji 
+*/
 
 var accessories_list = [
     {
@@ -154,42 +190,71 @@ var accessories_list = [
     },
 ];
 
+/* deklaracja zmiennej, przypisanej do elementu HTML, która następnie będzie zawierać elementy listy zakupów, utworzony w celu wystylizwania obiektów listy zakupów
+*/
+
 var shopping_list_box = create_box("shopping_list");
+
+/* deklaracja zmiennych, przypisane do wartości bool'owskiej false, wykorzystywana później do rozpoznania, czy akcesorium zostało dodane
+do zamówienia "true" , czy też nie "false"
+*/
 
 let is_accessory_1_added = false;
 let is_accessory_2_added = false;
 let is_accessory_3_added = false;
 
+/* deklaracja zmiennej, przypisanej do nowo utworzonego elementu "ul" w HTML,wykorzystana później do zapisywania i przechowywania 
+elementów listy samochodów dostępnych na stronie
+*/
+
 let element_ul = document.createElement("ul");
-element_ul.className = "updated_accessories_list";
+element_ul.className = "updated_accessories_list"; // przypisanie nazwy klasy elementu, w celu sprawniejszej identyfikacji obiektu
+
+/* deklaracja zmiennej, przypisanej do elementu HTML, która następnie będzie zawierać elementy cenę wybranych produktów,
+utworzona w celu wystylizwania obiektów listy zakupów
+*/
 
 let price_box = create_box("prise_box");
-let box_price;
-let shorten_cars_list = [];
-// create_search_control();
 
-// list selection, in that way we tell where list's elements shall be generated 
+/* deklaracja zmiennej, bez przypisywania wartości; zawierać będzie aktualną cenę produktu i jego akcesoriów
+*/
+
+let box_price;
+
+/* deklaracja pustej tablicy; zawierać będzie skróconą listę elementów listy, po wyszukiwaniu
+*/
+
+let shorten_cars_list = [];
+
+
+// create_search_control(); ?????????????????????????????????????????????????????????????????????????????????
+
+/* deklaracja zmiennej, do której przypisano element DOM odnaleziony po nazwie klasy
+*/
+
 let cars_list = document.querySelector(".my_page_content");
 
+/* funkcja mająca na celu przypisanie do każdego elementu stru poprawnych wartości i elemenetów, 
+której triggerem jest odświeżenie strony
+*/
 
-// localStorage.clear();
 window.onload = function () {
-    console.log(localStorage.getItem("current_screen"));
-    console.log("tutaj");
-    if (localStorage.getItem("current_screen") == "cars_list") {
+    if (localStorage.getItem("current_screen") == "cars_list") { // wywołanie elementów dostępnych na pierwszej stronie aplikacji 
         create_cars_list(cars);
     }
-    if (localStorage.getItem("current_screen") == null) {
-        create_cars_list(cars);
+    if (localStorage.getItem("current_screen") == null) {   // wywołanie elementów na pierwszej stronie aplikacji, w przypadku gdy strona
+        create_cars_list(cars);                             // uruchomiona jest pierwszy raz
     }
-    if (localStorage.getItem("current_screen") == "form") {
-        set_form_view();
-        console.log("co tutaj");
+    if (localStorage.getItem("current_screen") == "form") { // wywołanie elementów strony, na drugim etapie działania aplikacji,
+        set_form_view();                                    // kiedy to user wybrał samochód i przeszedł do konfiguracji zamówienia
         localStorage.setItem("alerts_list_created", "false");
+        // odszukiwanie wartości elementów w local Storage i przypisiwanie ich 
         var name_label = document.querySelector(".class_name");
         name_label.value = localStorage.getItem("name");
+
         var address_label = document.querySelector(".class_address");
         address_label.value = localStorage.getItem("address");
+
         var date_label = document.querySelector(".class_date");
         date_label.value = localStorage.getItem("delivery_date");
 
@@ -217,20 +282,22 @@ window.onload = function () {
         if (is_selected_upholstery === "true") {
             upholstery_checkbox_value.checked = true;
         }
-        prepare_new_accessories_list();
+
+        prepare_new_accessories_list(); // przygotowanie nowej listy akcesoriów, więcej na temat funcji przy jej deklaracji 
     }
-    if (localStorage.getItem("current_screen") == "summary_page") {
-        let cars_ul = document.querySelector(".my_cars_list");
+    if (localStorage.getItem("current_screen") == "summary_page") { // wywołanie elementów strony, na trzecim etapie działania aplikacji,
+        let cars_ul = document.querySelector(".my_cars_list");      // gdy zakup zostaje zakończony i podsumowany 
         if (cars_ul === null) {
             create_cars_list(cars);
         }
         let cars_ul2 = document.querySelector(".my_cars_list");
         cars_ul2.style.display = "none";
-        summamry_page();
+        summamry_page(); // wyświetlenie strony z podsumowaniem, więcej na temat funkcji przy jej deklaracji 
     }
 }
 
-//create_cars_list(cars); 
+/* 
+*/
 
 function create_cars_list(table) {
 
@@ -862,7 +929,5 @@ function update_search_event(event) {
         }
     }
     );
-    }
-    
-    
+    } 
 };
