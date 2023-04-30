@@ -61,12 +61,107 @@
     
 }
 
-/* styles for static page header */
+/* style formularza
+*/
 
-.page_header {
-    border-style: dashed;
+.my_form {
+    border-width: 1px;
+    margin-top: 10px;
+    margin-left: 50px;
+    padding-top: 0px;
+    padding-left: 20px;
+    width: 35%;
+    float: left;
 }
 
-.alerts {
+/* style listy zakupów
+*/
+
+.shopping_list{
+    margin-top: 10px;
+    margin-left: 50px;
+    padding-top: 30px;
+    padding-left: 20px;
+    width: 40%;
+    float: left;
+}
+
+/* style listy komunikatów błędów 
+*/
+
+@counter-style thumbs {
+    system: cyclic;
+    symbols: "\1F9EF";
+    suffix: " ";
+}
+
+.alerts_list {
+    list-style-type: thumbs;
+    color: red;
+    font-weight: bolder;
+}
+
+@counter-style thumbs2 {
+    system: cyclic;
+    symbols: "\2705";
+    suffix: " ";
+}
+
+.updated_accessories_list{
+    list-style-type: thumbs2;
+    
+}
+
+.payment_label_tytle, .name, .address, .date_main_label, .accessories_main_label {
+    font-weight: bolder;
+}
+
+.name, .address, .date_main_label {
+    padding-bottom: 5px;
+}
+
+.car_picture {
+    display: block;
+    margin-left: 0;
+    margin-right: auto;
+    width: 50%;
+}
+
+.car_name {
+    font-weight: bolder;
+    font-size: large;
+}
+
+.page_header {
+    text-align: center;
+}
+
+.shopping_list_class {
+    font-weight: bolder;
+    font-size: x-large;
+}
+
+.button_button {
     background-color: red;
+    border: none;
+    color: white;
+    padding: 10px 16px;
+    margin: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: left;
+    font-size: 16px;
+}
+
+.button_submit {
+    background-color: green;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: right;
+    font-size: 16px;
+    position: absolute;
 }
