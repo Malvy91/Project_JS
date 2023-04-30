@@ -1041,7 +1041,7 @@ function back_to_cars_list() {
 
 function create_search_control() {
     let search_control_box = create_box("search_control_box");
-    let serch_label = create_label("Wyszukaj", "class_search");
+    let serch_label = create_label("Wyszukaj model samochodu: ", "class_search");
     let search_input = create_input_text("search", "class_search_input");
     search_input.addEventListener("input", update_search_event);
     search_control_box.append(serch_label, search_input);
