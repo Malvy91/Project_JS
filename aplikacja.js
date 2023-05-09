@@ -17,7 +17,7 @@ kodu. W trakcie tworzenia aplikacji postawiono również na rozwiązanie na bie�
         "pictureSrc": string // lokalizacja obrazka 
 */
 
-var cars = [
+const cars = [
     {
         "id": 1,
         "brand": "Dacia",
@@ -135,7 +135,7 @@ var cars = [
         "user_data_class": string // ustalona nazwa klasy dla elementu powstałego w trakcie życia aplikacji 
 */
 
-var user_data = [
+const user_data = [
     {
         "user_data": "Imię & Nazwisko",
         "user_data_class": "name",
@@ -151,14 +151,16 @@ var user_data = [
         "class": string // ustalona nazwa klasy dla elementu powstałego w trakcie życia aplikacji
 */
 
-var payments = [
+const payments = [
     {
         "name": "leasing",
         "class": "payment",
+        "radio_class": "radio_leasing",
     },
     {
         "name": "gotówka",
         "class": "payment",
+        "radio_class": "radio_cash",
     },
 ];
 
@@ -169,7 +171,7 @@ deklaracja tablicy obiektów, reprezentujących akcesoria dostępne w aplikacji
         "class": string // nazwa klasy obiektu, wykorzystywana do identyfikacji i pobrania obiektu w trakcie życia aplikacji 
 */
 
-var accessories_list = [
+const accessories_list = [
     {
         "id": 11,
         "name": "ABS",
@@ -190,10 +192,10 @@ var accessories_list = [
     },
 ];
 
-/* deklaracja zmiennej, przypisanej do elementu HTML, która następnie będzie zawierać elementy listy zakupów, utworzony w celu wystylizwania obiektów listy zakupów
+/* deklaracja stałej, przypisanej do elementu HTML, która następnie będzie zawierać elementy listy zakupów, utworzony w celu wystylizwania obiektów listy zakupów
 */
 
-var shopping_list_box = create_box("shopping_list");
+const shopping_list_box = create_box("shopping_list");
 
 /* deklaracja zmiennych, przypisane do wartości bool'owskiej false, wykorzystywana później do rozpoznania, czy akcesorium zostało dodane
 do zamówienia "true" , czy też nie "false"
@@ -203,18 +205,18 @@ let is_accessory_1_added = false;
 let is_accessory_2_added = false;
 let is_accessory_3_added = false;
 
-/* deklaracja zmiennej, przypisanej do nowo utworzonego elementu "ul" w HTML,wykorzystana później do zapisywania i przechowywania 
+/* deklaracja stałej, przypisanej do nowo utworzonego elementu "ul" w HTML,wykorzystana później do zapisywania i przechowywania 
 elementów listy samochodów dostępnych na stronie
 */
 
-let element_ul = document.createElement("ul");
+const element_ul = document.createElement("ul");
 element_ul.className = "updated_accessories_list"; // przypisanie nazwy klasy elementu, w celu sprawniejszej identyfikacji obiektu
 
-/* deklaracja zmiennej, przypisanej do elementu HTML, która następnie będzie zawierać elementy cenę wybranych produktów,
+/* deklaracja stałej, przypisanej do elementu HTML, która następnie będzie zawierać elementy cenę wybranych produktów,
 utworzona w celu wystylizwania obiektów listy zakupów
 */
 
-let price_box = create_box("prise_box");
+const price_box = create_box("prise_box");
 
 /* deklaracja zmiennej, bez przypisywania wartości; zawierać będzie aktualną cenę produktu i jego akcesoriów
 */
@@ -231,20 +233,20 @@ let cars_ul;
 
 let shorten_cars_list = [];
 
-/* deklaracja zmiennej, dającej dostęp do kontrolki search
+/* deklaracja stałej, dającej dostęp do kontrolki search
 */
 
-let my_search_entry_control = document.querySelector(".my_search_entry");
+const my_search_entry_control = document.querySelector(".my_search_entry");
 
 /* utworzenie kontrolki wyszukiwarki 
 */
 
 create_search_control();
 
-/* deklaracja zmiennej, do której przypisano element DOM odnaleziony po nazwie klasy
+/* deklaracja stałej, do której przypisano element DOM odnaleziony po nazwie klasy
 */
 
-let cars_list = document.querySelector(".my_page_content");
+const cars_list = document.querySelector(".my_page_content");
 
 /* funkcja mająca na celu przypisanie do każdego elementu stru poprawnych wartości i elemenetów, 
 której triggerem jest odświeżenie strony
@@ -265,35 +267,35 @@ window.onload = function () {
         set_form_view();                                    // kiedy to user wybrał samochód i przeszedł do konfiguracji zamówienia
         localStorage.setItem("alerts_list_created", "false");
         // odszukiwanie wartości elementów w local Storage i przypisiwanie ich 
-        var name_label = document.querySelector(".class_name");
+        const name_label = document.querySelector(".class_name");
         name_label.value = localStorage.getItem("name");
 
-        var address_label = document.querySelector(".class_address");
+        const address_label = document.querySelector(".class_address");
         address_label.value = localStorage.getItem("address");
 
-        var date_label = document.querySelector(".class_date");
+        const date_label = document.querySelector(".class_date");
         date_label.value = localStorage.getItem("delivery_date");
 
-        var leasing_radio = document.querySelector(".radioleasing");
-        var gotowka_radio = document.querySelector(".radiogotówka");
+        const leasing_radio = document.querySelector(".radio_leasing");
+        const cash_radio = document.querySelector(".radio_cash");
         if (localStorage.getItem("payment_method") === "leasing") {
             leasing_radio.checked = true;
         }
         if (localStorage.getItem("payment_method") === "gotówka") {
-            gotowka_radio.checked = true;
+            cash_radio.checked = true;
         }
 
-        var ABS_checkbox_value = document.querySelector(".checkboxABS");
+        const ABS_checkbox_value = document.querySelector(".checkboxABS");
         const is_selected_ABS = localStorage.getItem("ABS_state");
         if (is_selected_ABS === "true") {
             ABS_checkbox_value.checked = true;
         }
-        var rims_checkbox_value = document.querySelector(".checkboxrims");
+        const rims_checkbox_value = document.querySelector(".checkboxrims");
         const is_selected_rims = localStorage.getItem("rims_state");
         if (is_selected_rims === "true") {
             rims_checkbox_value.checked = true;
         }
-        var upholstery_checkbox_value = document.querySelector(".checkboxupholstery");
+        const upholstery_checkbox_value = document.querySelector(".checkboxupholstery");
         const is_selected_upholstery = localStorage.getItem("upholstery_state");
         if (is_selected_upholstery === "true") {
             upholstery_checkbox_value.checked = true;
@@ -318,7 +320,7 @@ jej zadaniem jest utworzenie listy samochodów dostępnych w aplikacji
 */
 
 function create_cars_list(table) {
-    let available_us = document.querySelector(".my_cars_list");
+    const available_us = document.querySelector(".my_cars_list");
     if (available_us !== null) {
         available_us.remove();
     }
@@ -328,60 +330,60 @@ function create_cars_list(table) {
     zabieg ten ma posłużyć ograniczeniu ingerencji w ciągłe ładowanie strony, co ma wpłynąć na poprawienie wydajności aplikacji
     */
 
-    var document_fragment = document.createDocumentFragment();
+    const document_fragment = document.createDocumentFragment();
 
     /* utworzenie zmiennej, do której przypisano nowo utworzony element DOM "ul" 
     */
 
-    var ul = document.createElement("ul");
+    const ul = document.createElement("ul");
     ul.className = "my_cars_list"; // nadanie elementowi nazwy klasy w celu sprawniejszej jego identyfikacji 
 
     table.forEach((item) => { //przechodząc po każdym z elementów tablicy, wyświetlam je na stronie aplikacji 
 
-        let li = document.createElement("li"); // utworzenie elementu listy  
+        const li = document.createElement("li"); // utworzenie elementu listy  
         li.className = "list_item"; // nadanie nazwy klasy, w celu prostrzej identyfikacji elementu 
         li.id = item.id; // nadanie id, jest to ten sam id, którym posługuje się obiekt tablicy (table)
         li.addEventListener("click", open_list_element); // dodanie listenera, który będzie reagował na kliknięcie w element listy
                                                         // po kliknięcie w element listy wywoła się funkcja open_list_element()
 
-        let badge_header = document.createElement("h3"); // utworzenie elementu zawierającego się w elemencie listy 
+        const badge_header = document.createElement("h3"); // utworzenie elementu zawierającego się w elemencie listy 
         badge_header.className = "car_badge"; 
         badge_header.innerText = item.brand + " " + item.model; // dodanie tesktu do elementu badge_header
 
         /* utworzenie elementów zawierających informacje nt. samochodu 
         */
 
-        let car_image = document.createElement("img"); // deklaracja zmiennej oraz przypisanie nowoutworzonego elementu "obraz"
+        const car_image = document.createElement("img"); // deklaracja zmiennej oraz przypisanie nowoutworzonego elementu "obraz"
         car_image.className = "car_image";
         car_image.src = item.pictureSrc; // przypisanie lokalizacji obrazu do atrybutu obrazu 
         car_image.alt = item.brand + " " + item.model; // podanie tekstu alternatywnego, gdyby obraz nie był dostępny 
-        let car_year = document.createElement("p"); 
+        const car_year = document.createElement("p"); 
         car_year.className = "car_year";
         car_year.innerText = "Rocznik:\n" + item.year;
-        let car_mileage = document.createElement("p"); 
+        const car_mileage = document.createElement("p"); 
         car_mileage.className = "car_mileage";
         car_mileage.innerText = "Przebieg:\n" + item.mileage + " km";
-        let car_power = document.createElement("p");
+        const car_power = document.createElement("p");
         car_power.className = "car_power";
         car_power.innerText = "Moc silnika:\n" + item.horse_power + " KM - " + item.engine_power + " kW";
-        let car_price = document.createElement("h4");
+        const car_price = document.createElement("h4");
         car_price.className = "car_price";
         car_price.innerText = item.price + " zł";
 
         /* utworzenie tabeli, placeeholder do stylizacji elementów listy 
         */
 
-        let table = document.createElement("table");
+        const table = document.createElement("table");
         table.className = "table";
-        let table_row = document.createElement("tr");
+        const table_row = document.createElement("tr");
         table_row.className = "table_row";
-        let table_cell1 = document.createElement("td");
+        const table_cell1 = document.createElement("td");
         table_cell1.className = "table_cell1";
         table_cell1.append(car_image);
-        let table_cell2 = document.createElement("td");
+        const table_cell2 = document.createElement("td");
         table_cell2.className = "table_cell2";
         table_cell2.append(car_year, car_mileage, car_power)
-        let table_cell3 = document.createElement("td");
+        const table_cell3 = document.createElement("td");
         table_cell3.className = "table_cell3";
         table_cell3.append(car_price)
         table_row.append(table_cell1, table_cell2, table_cell3);
@@ -421,7 +423,7 @@ function set_form_view() {
     } else {
         cars_ul.style.display = "none";
     };
-    let updated_accessories_remove_this_list = document.querySelector(".updated_accessories_list");
+    const updated_accessories_remove_this_list = document.querySelector(".updated_accessories_list");
     if (updated_accessories_remove_this_list !== null) {
         updated_accessories_remove_this_list.remove();
     }
@@ -434,21 +436,21 @@ function set_form_view() {
 
 function create_form() {
     my_search_entry_control.style.display = "none";
-    let form = document.createElement("form"); // utworzenie elementu formulrz
+    const form = document.createElement("form"); // utworzenie elementu formulrz
     form.className = "my_form";
     localStorage.setItem("current_screen", "form"); // zapisanie aktualnie widocznego elementu aplikacji do localStorage
 
     /* dodanie przycisku powrót do formularza 
     */
 
-    var button_box = create_box("box_button");
-    var my_button = create_button("button", "Powrót");
-    my_button.addEventListener("click", hide_form_when_back); // złapanie i interpretacja eventu, kliknięcie w button Powrót
-    button_box.append(my_button);
+    const button_box = create_box("box_button");
+    const my_back_button = create_button("button", "Powrót");
+    my_back_button.addEventListener("click", hide_form_when_back); // złapanie i interpretacja eventu, kliknięcie w button Powrót
+    button_box.append(my_back_button);
     
 
     // user data element
-    let user_data_box = create_box("surname");
+    const user_data_box = create_box("surname");
     user_data.forEach((item) => {
         let label = create_label("\n" + item.user_data + " \n", item.user_data_class);
         let element = create_input_text(item.user_data, "class_" + item.user_data_class);
@@ -463,19 +465,19 @@ function create_form() {
     );
 
     // date element
-    var date_box = create_box("date");
-    var label_date = create_label("Data odbioru \n", "date_main_label");
-    var element_date = create_input_date("date");
+    const date_box = create_box("date");
+    const label_date = create_label("Data odbioru \n", "date_main_label");
+    const element_date = create_input_date("date");
     element_date.addEventListener("input", update_date_value);
     date_box.append(label_date, element_date);
 
     // payment element
-    var payment_box = create_box("payment");
-    var label_accessories = create_label("Sposób zapłaty: \n", "payment_label_tytle");
-    payment_box.append(label_accessories);
+    const payment_box = create_box("payment");
+    const label_payment_way = create_label("Sposób zapłaty: \n", "payment_label_tytle");
+    payment_box.append(label_payment_way);
     payments.forEach((item) => {
-        let element_payment = create_input_selection("radio", item.name, "radio" + item.name);
-        let label_payment = create_label("\n", item.class);
+        const element_payment = create_input_selection("radio", item.name, item.radio_class);
+        const label_payment = create_label("\n", item.class);
         label_payment.append(element_payment);
         label_payment.append(item.name);
         element_payment.addEventListener("click", update_payment_method); // złapanie i interpretacja eventu, kliknięcie w radio button 
@@ -484,12 +486,12 @@ function create_form() {
     );
 
     // accessories elements
-    var accessories_box = create_box("accessories");
-    var label_accessories = create_label("Akcesoria: \n", "accessories_main_label");
+    const accessories_box = create_box("accessories");
+    const label_accessories = create_label("Akcesoria: \n", "accessories_main_label");
     accessories_box.append(label_accessories);
     accessories_list.forEach((item) => {
-        let element_accessories = create_input_selection("checkbox", item.name, "checkbox" + item.class);
-        let label_accessories = create_label("\n", item.class);
+        const element_accessories = create_input_selection("checkbox", item.name, "checkbox" + item.class);
+        const label_accessories = create_label("\n", item.class);
         label_accessories.append(element_accessories);
         label_accessories.append(item.name + " " + item.price + " zł");
         element_accessories.addEventListener("click", update_accessories_list); // złapanie i interpretacja eventu, kliknięcie w checkbox 
@@ -500,9 +502,9 @@ function create_form() {
     /* dodanie przycisku wyślij do formularza 
     */
 
-    var my_button = create_button("submit", "Wyślij");
-    my_button.addEventListener("click", submit_form); // złapanie i interpretacja eventu, kliknięcie w button Wyślij
-    button_box.append(my_button);
+    let my_submit_button = create_button("submit", "Wyślij");
+    my_submit_button.addEventListener("click", submit_form); // złapanie i interpretacja eventu, kliknięcie w button Wyślij
+    button_box.append(my_submit_button);
 
     form.append(user_data_box, date_box, payment_box, accessories_box, button_box); // dodanie elementów do formularza
     cars_list.append(form); // dodanie formularza do strony, formularz zostanie wyświetlone
@@ -557,9 +559,9 @@ function update_final_price(price) {
 
 function prepare_new_accessories_list(){
     accessories_list.forEach((item) => {
-        let my_class_name = ".checkbox" + item.class;
-        let element_name = item.class + "_state";
-        let list_element = document.querySelector(my_class_name);
+        const my_class_name = ".checkbox" + item.class;
+        const element_name = item.class + "_state";
+        const list_element = document.querySelector(my_class_name);
         let is_element_checked;
         if (list_element === null) {
             is_element_checked = false;
@@ -572,51 +574,26 @@ function prepare_new_accessories_list(){
             switch (item.id) {
                 case 11:
                     if (is_accessory_1_added == false) {
-                        let element_li = document.createElement("li");
-                        element_li.className = item.class;
-                        element_li.innerText = item.name;
-                        element_li.id = item.id;
-                        element_ul.append(element_li);
-                        box_price = box_price + item.price;
-                        update_final_price(box_price);
-
-                        var price_label = document.querySelector(".my_price");
-                        price_label.remove();
-                        let label_price = create_label("Cena zakupu: " + box_price + " zł", "my_price");
-                        price_box.append(label_price);
-                        is_accessory_1_added = true;
+                        const accessory_added = true;
+                        create_element_in_new_accessories_list(item);
+                        update_price_according_to_formula(item, accessory_added);
+                        is_accessory_1_added = accessory_added;
                     }
                     break;
                 case 22:
                     if (is_accessory_2_added == false) {
-                        let element_li = document.createElement("li");
-                        element_li.className = item.class;
-                        element_li.innerText = item.name;
-                        element_li.id = item.id;
-                        element_ul.append(element_li);
-                        box_price = box_price + item.price;
-                        update_final_price(box_price);
-                        var price_label = document.querySelector(".my_price");
-                        price_label.remove();
-                        let label_price = create_label("Cena zakupu: " + box_price + " zł", "my_price");
-                        price_box.append(label_price);
-                        is_accessory_2_added = true;
+                        const accessory_added = true;
+                        create_element_in_new_accessories_list(item);
+                        update_price_according_to_formula(item, accessory_added);
+                        is_accessory_2_added = accessory_added;
                     }
                     break;
                 case 33:
                     if (is_accessory_3_added == false) {
-                        let element_li = document.createElement("li");
-                        element_li.className = item.class;
-                        element_li.innerText = item.name;
-                        element_li.id = item.id;
-                        element_ul.append(element_li);
-                        box_price = box_price + item.price;
-                        update_final_price(box_price);
-                        var price_label = document.querySelector(".my_price");
-                        price_label.remove();
-                        let label_price = create_label("Cena zakupu: " + box_price + " zł", "my_price");
-                        price_box.append(label_price);
-                        is_accessory_3_added = true;
+                        const accessory_added = true;
+                        create_element_in_new_accessories_list(item);
+                        update_price_according_to_formula(item, accessory_added);
+                        is_accessory_3_added = accessory_added;
                     }
                     break;
                 default:
@@ -626,41 +603,29 @@ function prepare_new_accessories_list(){
             switch (item.id) {
                 case 11:
                     if (is_accessory_1_added == true) {
-                        let remove_element = document.getElementById(item.id);
+                        const accessory_added = false;
+                        const remove_element = document.getElementById(item.id);
                         remove_element.remove();
-                        box_price = box_price - item.price;
-                        update_final_price(box_price);
-                        var price_label = document.querySelector(".my_price");
-                        price_label.remove();
-                        let label_price = create_label("Cena zakupu: " + box_price + " zł", "my_price");
-                        price_box.append(label_price);
-                        is_accessory_1_added = false;
+                        update_price_according_to_formula(item, accessory_added);
+                        is_accessory_1_added = accessory_added;
                     }
                     break;
                 case 22:
                     if (is_accessory_2_added == true) {
-                        let remove_element = document.getElementById(item.id);
+                        const accessory_added = false;
+                        const remove_element = document.getElementById(item.id);
                         remove_element.remove();
-                        box_price = box_price - item.price;
-                        update_final_price(box_price);
-                        var price_label = document.querySelector(".my_price");
-                        price_label.remove();
-                        let label_price = create_label("Cena zakupu: " + box_price + " zł", "my_price");
-                        price_box.append(label_price);
-                        is_accessory_2_added = false;
+                        update_price_according_to_formula(item, accessory_added);
+                        is_accessory_2_added = accessory_added;
                     }
                     break;
                 case 33:
                     if (is_accessory_3_added == true) {
-                        let remove_element = document.getElementById(item.id);
+                        const accessory_added = false;
+                        const remove_element = document.getElementById(item.id);
                         remove_element.remove();
-                        box_price = box_price - item.price;
-                        update_final_price(box_price);
-                        var price_label = document.querySelector(".my_price");
-                        price_label.remove();
-                        let label_price = create_label("Cena zakupu: " + box_price + " zł", "my_price");
-                        price_box.append(label_price);
-                        is_accessory_3_added = false;
+                        update_price_according_to_formula(item, accessory_added);
+                        is_accessory_3_added = accessory_added
                     }
                     break;
                 default:
@@ -673,11 +638,38 @@ function prepare_new_accessories_list(){
     shopping_list_box.append(element_ul, price_box);
 };
 
+/* utworzenie nowego elementu listy acesoriów wybranych do zamówienia
+*/
+
+function create_element_in_new_accessories_list(item) {
+    const element_li = document.createElement("li");
+    element_li.className = item.class;
+    element_li.innerText = item.name;
+    element_li.id = item.id;
+    element_ul.append(element_li);
+};
+
+/* aktualizacja ceny zestawu produktów w zależności od wyboru akcesoriów
+*/
+
+function update_price_according_to_formula(item, accessory_added) {
+    if (accessory_added) {
+        box_price = box_price + item.price;
+    } else {
+        box_price = box_price - item.price;
+    }
+    update_final_price(box_price);
+    const price_label = document.querySelector(".my_price");
+    price_label.remove();
+    const label_price = create_label("Cena zakupu: " + box_price + " zł", "my_price");
+    price_box.append(label_price);
+};
+
 /* utworzenie elementu "p", w którym dodane zostaną pozostałe skojarzone elementy
 */
 
 function create_box(class_name) {
-    let paragraf_box = document.createElement("p");
+    const paragraf_box = document.createElement("p");
     paragraf_box.className = class_name;
     return paragraf_box;
 };
@@ -686,7 +678,7 @@ function create_box(class_name) {
 */
 
 function create_label(name, class_name) {
-    let label = document.createElement("label")
+    const label = document.createElement("label")
     label.innerText = name;
     label.className = class_name;
     return label
@@ -696,7 +688,7 @@ function create_label(name, class_name) {
 */
 
 function create_input_text(label_name, class_name) {
-    let input_name = document.createElement("input");
+    const input_name = document.createElement("input");
     input_name.className = class_name;
     input_name.type = "text";
     input_name.labels = label_name;
@@ -707,24 +699,24 @@ function create_input_text(label_name, class_name) {
 */
 
 function create_input_date(class_name) {
-    let input_date = document.createElement("input");
-    let today = new Date();
+    const input_date = document.createElement("input");
+    const today = new Date();
     input_date.className = "class_" + class_name;
     input_date.type = "date";
-    let today_date = today.getFullYear() + "-" + (today.getMonth() + 1).toString().padStart(2, '0') + "-" + today.getDate().toString().padStart(2, '0');
+    const today_date = today.getFullYear() + "-" + (today.getMonth() + 1).toString().padStart(2, '0') + "-" + today.getDate().toString().padStart(2, '0');
     input_date.value = today_date;
     localStorage.setItem("delivery_date", input_date.value);
     input_date.min = input_date.value;
     let max_date; 
-    let twoWeeksLater = new Date(today.getTime() + (14 * 24 * 60 * 60 * 1000));
+    const twoWeeksLater = new Date(today.getTime() + (14 * 24 * 60 * 60 * 1000));
 
-    let day = twoWeeksLater.getDate().toString().padStart(2, '0');
-    let month = (twoWeeksLater.getMonth() + 1).toString().padStart(2, '0');
-    let year = twoWeeksLater.getFullYear().toString();
+    const day = twoWeeksLater.getDate().toString().padStart(2, '0');
+    const month = (twoWeeksLater.getMonth() + 1).toString().padStart(2, '0');
+    const year = twoWeeksLater.getFullYear().toString();
 
-    let today_day = today.getDate().toString().padStart(2, '0');
-    let today_month = (today.getMonth() + 1).toString().padStart(2, '0');
-    let today_year = today.getFullYear().toString();
+    const today_day = today.getDate().toString().padStart(2, '0');
+    const today_month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const today_year = today.getFullYear().toString();
     today_value = today_year + "-" + today_month + "-" + today_day;
     max_date = year + "-" + month + "-" + day;
     input_date.value = today_value;
@@ -736,7 +728,7 @@ function create_input_date(class_name) {
 */
 
 function create_input_selection(element_type, element_value, element_class) {
-    let input_element = document.createElement("input");
+    const input_element = document.createElement("input");
     input_element.setAttribute("type", element_type);
     input_element.setAttribute("value", element_value);
     input_element.setAttribute("class", element_class)
@@ -749,25 +741,7 @@ function create_input_selection(element_type, element_value, element_class) {
 
 function hide_form_when_back() {
     my_search_entry_control.style.display = "block"
-    let my_form = document.querySelector(".my_form");
-    my_form.remove();
-    let updated_accessories_remove_list = document.querySelector(".updated_accessories_list");
-    if (updated_accessories_remove_list !== null) {
-        updated_accessories_remove_list.remove();
-    }
-    let shopping_list_class = document.querySelector(".shopping_list_class");
-    shopping_list_class.remove();
-    let car_box = document.querySelector(".car_box");
-    car_box.remove();
-    let my_price = document.querySelector(".my_price");
-    my_price.remove();
-    let shopping_list = document.querySelector(".shopping_list");
-    shopping_list.remove();
-
-    let alerts_baner = document.querySelector(".alerts_list");
-    if (alerts_baner !== null) {
-        alerts_baner.remove();
-    };
+    hide_form_and_other_components()
     cars_ul = document.querySelector(".my_cars_list");
     cars_ul.style.display = "block";
     localStorage.clear();
@@ -778,51 +752,73 @@ function hide_form_when_back() {
 */
 
 function hide_form_when_submit() {
-    let my_form = document.querySelector(".my_form");
+    hide_form_and_other_components()
+    localStorage.setItem("current_screen", "summary_page");
+}; 
+
+/* Funkcja usuwająca elementy formularza oraz listy zakupów, niezależnie czy akcja ją wywołująca pochodzi z Powrót czy Wyślij
+*/
+
+function hide_form_and_other_components() {
+    const my_form = document.querySelector(".my_form");
     my_form.remove();
-    let updated_accessories_remove_list = document.querySelector(".updated_accessories_list");
+    const ABS_element = document.querySelector(".ABS");
+    const rims_element = document.querySelector(".rims");
+    const upholstery_element = document.querySelector(".upholstery");
+    if (ABS_element !== null) {
+        ABS_element.remove();
+    }
+    if (rims_element !== null) {
+        rims_element.remove();
+    }
+    if (upholstery_element !== null) {
+        upholstery_element.remove();
+    }
+    const updated_accessories_remove_list = document.querySelector(".updated_accessories_list");
     if (updated_accessories_remove_list !== null) {
         updated_accessories_remove_list.remove();
     }
-    let shopping_list_class = document.querySelector(".shopping_list_class");
+    const shopping_list_class = document.querySelector(".shopping_list_class");
     shopping_list_class.remove();
-    let car_box = document.querySelector(".car_box");
+    const car_box = document.querySelector(".car_box");
     car_box.remove();
-    let my_price = document.querySelector(".my_price");
+    const my_price = document.querySelector(".my_price");
     my_price.remove();
-    let shopping_list = document.querySelector(".shopping_list");
+    const shopping_list = document.querySelector(".shopping_list");
     shopping_list.remove();
 
-    let alerts_baner = document.querySelector(".alerts_list");
+    const alerts_baner = document.querySelector(".alerts_list");
     if (alerts_baner !== null) {
         alerts_baner.remove();
     };
-    localStorage.setItem("current_screen", "summary_page");
-}; 
+    is_accessory_1_added = false; 
+    is_accessory_2_added = false;
+    is_accessory_3_added = false;
+}
 
 /* wyświetlenie elementów wybranego samochodu 
 */
 
 function display_selected_car() {
-    var shopping_list_title = create_label("Twoja lista zakupów \n", "shopping_list_class");
+    const shopping_list_title = create_label("Twoja lista zakupów \n", "shopping_list_class");
     shopping_list_box.append(shopping_list_title);
     const car_id = localStorage.getItem("car_id");
-    let car_box = create_box("car_box");
+    const car_box = create_box("car_box");
     cars.forEach((item) => {
         if (item.id == car_id) {
             box_price = item.price;
             update_final_price(box_price);
-            let label_price = create_label("Cena zakupu: " + box_price + " zł", "my_price");
-            let car_name = document.createElement("p");
+            const label_price = create_label("Cena zakupu: " + box_price + " zł", "my_price");
+            const car_name = document.createElement("p");
             car_name.className = "car_name";
             car_name.innerText = item.brand + " " + item.model;
 
-            let car_picture = document.createElement("img");
+            const car_picture = document.createElement("img");
             car_picture.className = "car_picture";
             car_picture.src = item.pictureSrc;
             car_picture.alt = item.brand + " " + item.model;
             
-            let car_info = document.createElement("p");
+            const car_info = document.createElement("p");
             car_info.className = "car_info";
             car_info.innerText = "\nRocznik: " + item.year +
                 " | Przebieg: " + item.mileage + " km" +
@@ -842,7 +838,7 @@ function display_selected_car() {
 */
 
 function create_button(type, text) {
-    var button = document.createElement("button");
+    const button = document.createElement("button");
     button.type = type;
     button.innerText = text;
     button.className = "button_" + type;
@@ -859,32 +855,32 @@ function submit_form(event) {
     const address = localStorage.getItem("address");
     const date = localStorage.getItem("delivery_date");
     const payment = localStorage.getItem("payment_method");
-    let today = new Date();
-    let twoDaysLaterms = today.getTime() + (2 * 24 * 60 * 60 * 1000);
+    const today = new Date();
+    const twoDaysLaterms = today.getTime() + (2 * 24 * 60 * 60 * 1000);
 
-    let alerts_list = document.createElement("ul");
+    const alerts_list = document.createElement("ul");
     alerts_list.className = "alerts_list";
     if (localStorage.getItem("alerts_list_created") === "true") {
-        let select_alerts_list = document.querySelector(".alerts_list");
+        const select_alerts_list = document.querySelector(".alerts_list");
         if (select_alerts_list !== null) {
             select_alerts_list.remove();
         }
     }
     if (name === null) {
-        let alert_element = document.createElement("li");
+        const alert_element = document.createElement("li");
         alert_element.className = "no name"
         alert_element.innerText = "Podaj imię i nazwisko.\n";
         alerts_list.append(alert_element);
         
     } else {
         if (analyze_text_function(name) === true) {
-            let alert_element = document.createElement("li");
+            const alert_element = document.createElement("li");
             alert_element.className = "incorrect_name_format"
             alert_element.innerText = "Podaj imię i nazwisko, oddzielając je spacją.\n";
             alerts_list.append(alert_element);
         } else {
             if (name === "") {
-                let alert_element = document.createElement("li");
+                const alert_element = document.createElement("li");
                 alert_element.className = "no name"
                 alert_element.innerText = "Podaj imię i nazwisko.\n";
                 alerts_list.append(alert_element);
@@ -892,22 +888,22 @@ function submit_form(event) {
         }
     }
     if (address === null) {
-        let alert_element = document.createElement("li");
+        const alert_element = document.createElement("li");
         alert_element.innerText = "Podaj adres dostawy.\n";
         alerts_list.append(alert_element);
     }
     if (address === "") {
-        let alert_element = document.createElement("li");
+        const alert_element = document.createElement("li");
         alert_element.innerText = "Podaj adres dostawy.\n";
         alerts_list.append(alert_element);
     }
     if (date === null) {
-        let alert_element = document.createElement("li");
+        const alert_element = document.createElement("li");
         alert_element.innerText = "Wybierz datę dostarczenia zamówienia.\n";
         alerts_list.append(alert_element);
     } else {
-        var myDate = new Date( date + "T00:00:00+0000");
-        var milliseconds = myDate.getTime();
+        const myDate = new Date( date + "T00:00:00+0000");
+        const milliseconds = myDate.getTime();
         if (milliseconds < twoDaysLaterms) {
             let alert_element = document.createElement("li");
             alert_element.innerText = "Na przygotowanie zamówienia potrzebujemy 2 dni. Wybierz inną datę dostarczenia zamówienia.\n";
@@ -915,11 +911,10 @@ function submit_form(event) {
         }
     }
     if (payment === null) {
-        let alert_element = document.createElement("li");
+        const alert_element = document.createElement("li");
         alert_element.innerText = "Wybierz formę płatności.\n";
         alerts_list.append(alert_element);
     }
-    let alerts = document.querySelector(".alerts");
     if (alerts_list.childElementCount > 0) {
         let my_form = document.querySelector(".my_form");
         my_form.append(alerts_list);
@@ -983,18 +978,18 @@ function show_summary_page() {
 */
 
 function summamry_page() {
-    let summary_element = document.createElement("p");
+    const summary_element = document.createElement("p");
     summary_element.className = "summary_element";
 
     const bought_car_id = localStorage.getItem("car_id");
-    let thanks_for = document.createElement("h3");
-    let my_car_picture = document.createElement("img");
+    const thanks_for = document.createElement("h3");
+    const my_car_picture = document.createElement("img");
     my_car_picture.className = "my_car_picture";
-    let cars_delivery = document.createElement("h3");
+    const cars_delivery = document.createElement("h3");
     const bought_car_delivery_date = localStorage.getItem("delivery_date");
-    let my_car_price = document.createElement("h3");
+    const my_car_price = document.createElement("h3");
     const final_car_price = localStorage.getItem("total_price");
-    let my_payment_methd = document.createElement("h3");
+    const my_payment_methd = document.createElement("h3");
     const final_paymeny_method = localStorage.getItem("payment_method");
     cars.forEach((item) => { 
         if (item.id === Number(bought_car_id)) {
@@ -1011,8 +1006,8 @@ function summamry_page() {
     }
     );
 
-    let finish_button_box = create_box("finish_button_box");
-    let finish_button = create_button("button", "Zakończ")
+    const finish_button_box = create_box("finish_button_box");
+    const finish_button = create_button("button", "Zakończ")
     finish_button.addEventListener("click", back_to_cars_list);
     finish_button_box.append(finish_button);
 
@@ -1027,9 +1022,9 @@ function back_to_cars_list() {
     cars_ul = document.querySelector(".my_cars_list");
     cars_ul.style.display = "block";
     my_search_entry_control.style.display = "block"
-    let hide_finish_button_box = document.querySelector(".finish_button_box");
+    const hide_finish_button_box = document.querySelector(".finish_button_box");
     hide_finish_button_box.remove();
-    let hide_total_summary = document.querySelector(".summary_element");
+    const hide_total_summary = document.querySelector(".summary_element");
     hide_total_summary.remove();
 
     localStorage.clear();
@@ -1040,12 +1035,12 @@ function back_to_cars_list() {
 */
 
 function create_search_control() {
-    let search_control_box = create_box("search_control_box");
-    let serch_label = create_label("Wyszukaj model samochodu: ", "class_search");
-    let search_input = create_input_text("search", "class_search_input");
+    const search_control_box = create_box("search_control_box");
+    const serch_label = create_label("Wyszukaj model samochodu: ", "class_search");
+    const search_input = create_input_text("search", "class_search_input");
     search_input.addEventListener("input", update_search_event);
     search_control_box.append(serch_label, search_input);
-    let search_entry_on_page = document.querySelector(".my_search_entry");
+    const search_entry_on_page = document.querySelector(".my_search_entry");
     search_entry_on_page.append(search_control_box);
 }
 
@@ -1057,13 +1052,13 @@ function update_search_event(event) {
     shorten_cars_list = [];
     localStorage.setItem("search_phrase", event.currentTarget.value);
     const search_phrase = localStorage.getItem("search_phrase");
-    let lower_case_search_phrase = search_phrase.toLowerCase();
+    const lower_case_search_phrase = search_phrase.toLowerCase();
     if (search_phrase.length = 0) {
         create_cars_list(cars); 
     } else {
         cars.forEach((item) => { 
             analyze_text = item.brand;
-            let lower_case_text = analyze_text.toLowerCase();
+            const lower_case_text = analyze_text.toLowerCase();
             if (lower_case_text.includes(lower_case_search_phrase)) {
                 shorten_cars_list.push(item);
             }
